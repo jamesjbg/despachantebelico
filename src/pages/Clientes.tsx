@@ -1,0 +1,1 @@
+import React from 'react'; const Clientes: React.FC = () => <div>Página de Clientes</div>; export default Clientes;

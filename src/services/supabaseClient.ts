@@ -1,11 +1,24 @@
-import { createClient } from '@supabase/supabase-js';
+// src/services/supabaseClient.ts
 
-// As chaves agora são lidas das Variáveis de Ambiente configuradas na Vercel.
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("As variáveis de ambiente VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY precisam ser definidas no ambiente de implantação (Vercel).");
+// Lendo as chaves (elas serão strings vazias se não forem encontradas)
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''; 
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+let supabase: SupabaseClient | undefined; // O cliente pode ser undefined
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  // Apenas avisa. O cliente permanece undefined.
+  console.warn("AVISO: Chaves Supabase não configuradas. A persistência de dados estará desativada.");
+} else {
+  // SÓ INICIALIZA SE AS CHAVES EXISTIREM
+  try {
+    supabase = createClient(supabaseUrl, supabaseAnonKey);
+  } catch (error) {
+    console.error("Erro ao inicializar o Supabase, mas a URL/Key existe:", error);
+  }
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Exporta o cliente (pode ser um cliente Supabase ou undefined)
+export { supabase };

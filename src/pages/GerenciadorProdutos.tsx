@@ -1,0 +1,1 @@
+import React from 'react'; const GerenciadorProdutos: React.FC = () => <div>Gerenciador de Produtos</div>; export default GerenciadorProdutos;

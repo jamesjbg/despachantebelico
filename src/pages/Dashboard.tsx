@@ -1,0 +1,1 @@
+import React from 'react'; const Dashboard: React.FC = () => <div>Dashboard do Cliente</div>; export default Dashboard;
